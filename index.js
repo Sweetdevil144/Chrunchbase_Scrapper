@@ -10,6 +10,7 @@ const companies = JSON.parse(
 const API_KEY = process.env.API_KEY;
 const username = process.env.CONN_USERNAME;
 const password = process.env.CONN_PASSWORD;
+let completedRequests = 0;
 
 // Create a connection to MySQL
 const connection = mysql.createConnection({
@@ -45,6 +46,16 @@ connection.connect((err) => {
     // Fetch and store data for each company
     companies.forEach((company) => {
       fetchDataAndStore(company.company_name);
+      completedRequests++;
+      if (completedRequests === companies.length) {
+        connection.end((err) => {
+          if (err) {
+            console.error("Error ending the connection:", err);
+          } else {
+            console.log("Connection ended successfully.");
+          }
+        });
+      }
     });
   });
 });
@@ -79,21 +90,7 @@ async function fetchDataAndStore(companyName) {
         }
       }
     );
-    connection.end((err) => {
-      if (err) {
-        console.error("Error ending the connection:", err);
-      } else {
-        console.log("Connection ended successfully.");
-      }
-    });
   } catch (error) {
     console.error(`Error fetching data for ${companyName}:`, error);
-    connection.end((err) => {
-      if (err) {
-        console.error("Error ending the connection:", err);
-      } else {
-        console.log("Connection ended successfully.");
-      }
-    });
   }
 }
