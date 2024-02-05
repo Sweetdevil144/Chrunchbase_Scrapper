@@ -4,7 +4,7 @@ const fs = require("fs");
 
 // Read companies from the JSON file
 const companies = JSON.parse(fs.readFileSync("companies.json", "utf8")).companies;
-
+const API_KEY = process.env.API_KEY;
 // Create a connection to MySQL
 const connection = mysql.createConnection({
   host: "localhost",
@@ -45,7 +45,7 @@ connection.connect((err) => {
 
 // Function to fetch data from Crunchbase API and store in the database
 async function fetchDataAndStore(companyName) {
-  const url = `https://api.crunchbase.com/api/v4/entities/organizations/${companyName}?card_ids=founders,raised_funding_rounds&field_ids=categories,short_description,rank_org_company,founded_on,website,facebook,created_at&user_key=your_user_key`;
+  const url = `https://api.crunchbase.com/api/v4/entities/organizations/${companyName}?card_ids=founders,raised_funding_rounds&field_ids=categories,short_description,rank_org_company,founded_on,website,facebook,created_at&user_key=${API_KEY}`;
   
   try {
     const response = await axios.get(url);
