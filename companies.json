@@ -1,0 +1,14 @@
+{
+  "companies": [
+    { "company_name": "tesla-motors" },
+    { "company_name": "apple" },
+    { "company_name": "google" },
+    { "company_name": "facebook" },
+    { "company_name": "amazon" },
+    { "company_name": "microsoft" },
+    { "company_name": "netflix" },
+    { "company_name": "uber" },
+    { "company_name": "airbnb" },
+    { "company_name": "spotify" }
+  ]
+}
