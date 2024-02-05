@@ -57,10 +57,7 @@ async function fetchDataAndStore(companyName) {
     const response = await axios.get(url);
     const data = response.data.properties;
     const date = new Date(data.created_at);
-    const FormattedDate = date
-      .toISOString()
-      .slice(0, 19)
-      .replace("T", " ");
+    const FormattedDate = date.toISOString().slice(0, 19).replace("T", " ");
     const insertSql = `
       INSERT INTO org_test (name, short_description, facebook_url, created_at, rank_org_company)
       VALUES (?, ?, ?, ?, ?)
@@ -82,7 +79,21 @@ async function fetchDataAndStore(companyName) {
         }
       }
     );
+    connection.end((err) => {
+      if (err) {
+        console.error("Error ending the connection:", err);
+      } else {
+        console.log("Connection ended successfully.");
+      }
+    });
   } catch (error) {
     console.error(`Error fetching data for ${companyName}:`, error);
+    connection.end((err) => {
+      if (err) {
+        console.error("Error ending the connection:", err);
+      } else {
+        console.log("Connection ended successfully.");
+      }
+    });
   }
 }
